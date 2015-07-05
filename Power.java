@@ -155,9 +155,9 @@ class Power {
 
     /**
      * This function returns inverse modulo of a modulo mod.
-     * it's based on Euler's totient function.
+     * it's based on Fermat's Little Theorom.
      * @param a
-     * @param mod
+     * @param mod mod should be a prime number.
      * @return
      */
     private static long inverseModulo(long a, long mod) {
