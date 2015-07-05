@@ -1,5 +1,11 @@
 package DSA;
 
+/**
+ * Implementation of Range Query Lazy Updation.
+ * This kind of Range query is useful when the update is for an index range.
+ *
+ * @author Ashok Rajpurohit ashok1113@gmail.com
+ */
 public class RangeQueryLazy {
     private Node root;
 
