@@ -1,5 +1,10 @@
-package DSA;
+package Code.DSA;
 
+/**
+ * This is the fast multiplication implementation using binary operations
+ * and additions.
+ * @author Ashok Rajpurohit ashok1113@gmail.com
+ */
 public class MultiFast {
     private MultiFast() {
         super();
@@ -16,22 +21,22 @@ public class MultiFast {
             return x;
 
         long res = 0;
-        int sign = (x > 0 && y > 0) || (x < 0 && y < 0) ? 1 : 0;
+        boolean sign = (x > 0 && y > 0) || (x < 0 && y < 0);
         x = x > 0 ? x : -x;
         long xt = x;
         y = y > 0 ? y : -y;
-        int yt = 1;
+        long yt = 1;
         while (yt < y) {
             yt = yt << 1;
             xt = xt << 1;
         }
 
-        if (yt > y) {
+        while (yt > y) {
             yt = yt >>> 1;
             xt = xt >>> 1;
         }
 
-        while (yt != 0) {
+        while (yt > 0) {
             if ((y & yt) != 0) {
                 res += xt;
             }
@@ -39,7 +44,6 @@ public class MultiFast {
             xt = xt >>> 1;
         }
 
-        res = sign > 0 ? res : -res;
-        return res;
+        return sign ? res : -res;
     }
 }
