@@ -2,6 +2,9 @@ package Code.Geometry;
 
 import java.util.Comparator;
 
+/**
+ * @author Ashok Rajpurohit ashok1113@gmail.com
+ */
 public class LineSegment implements Comparable<LineSegment> {
     public final Point a, b;
     public final double length, angle;

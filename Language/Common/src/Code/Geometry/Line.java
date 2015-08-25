@@ -6,7 +6,7 @@ package Code.Geometry;
  * This is from basic straight line equation y = mx + c
  * where m is slope, c is constant.
  * for vertical lines the equation is x = c and slope is positive infinite.
- * @author Main Rajpurohit
+ * @author Ashok Rajpurohit
  */
 
 public class Line {
