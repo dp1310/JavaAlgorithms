@@ -28,7 +28,7 @@ public class Random {
 
     public long nextLong() {
         long a = nextInt();
-        return (a << 32) & nextInt();
+        return (a << 32) | nextInt();
     }
 
     public char nextChar() {
