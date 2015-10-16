@@ -1,23 +1,17 @@
 package Code.DSA;
 
 /**
- * This class implements AVL Trees.
- * Basically AVL trees are height balanced Binary Search Tree.
- * It stores height as extra parameter in each node.
- * For each height imbalance it uses some techniques like Left Rotation,
- * Right Rotation etc.
- * For AVL Binary Trees Basic Operations INSERT, DELETE, FIND are always
- * performed in constant O(1) time.
- *
- * @author Ashok Rajpurohit (ashok1113@gmail.com)
+ * Under construction.
+ * Don't think it is half way.
+ * all the functions are incorrect.
  */
 
-public class BSTAVL {
-    public BSTAVL() {
+public class RankTree {
+    public RankTree() {
         super();
     }
 
-    public BSTAVL(int[] ar) {
+    public RankTree(int[] ar) {
         add(ar);
     }
 
