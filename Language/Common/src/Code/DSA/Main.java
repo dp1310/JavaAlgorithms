@@ -37,8 +37,9 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 
 /**
+ * This class is for testing purpose only.
+ *
  * @author: Ashok Rajpurohit (ashok1113@gmail.com)
- * this class is to run Algorithms.
  */
 
 public class Main {
@@ -123,10 +124,14 @@ public class Main {
         InputReader in = new InputReader();
         long len = 0x5DEECE66DL;
         RandomStrings random = new RandomStrings();
+
+        RankTree rt = new RankTree();
         while (true) {
-            System.out.println(random.nextString123(in.readInt()));
-//            return;
+            int v = in.readInt();
+            rt.add(v);
+            System.out.println(rt.getIndex(v));
         }
+
 
     }
 

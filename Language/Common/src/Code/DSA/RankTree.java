@@ -1,9 +1,12 @@
 package Code.DSA;
 
 /**
- * Under construction.
- * Don't think it is half way.
- * all the functions are incorrect.
+ * Rank Tree class is to support index related queries in an array.
+ * for each element we want to know how many elements are smaller than this
+ * or greater than this. I am using AVL tree to height balance it and for
+ * optimum performance.
+ *
+ * @author: Ashok Rajpurohit (ashok1113@gmail.com)
  */
 
 public class RankTree {
@@ -46,6 +49,7 @@ public class RankTree {
         }
 
         root.left = add(root.left, n);
+        root.count++;
         if (root.left.height - getHeight(root.right) == 2) {
             if (root.left.data < n)
                 root = RotateLR(root);
@@ -61,6 +65,8 @@ public class RankTree {
         Node left = root.left;
         root.left = left.right;
         left.right = root;
+        root.count -= left.count - 1;
+
         root.height =
                 Math.max(getHeight(root.left), getHeight(root.right)) + 1;
         left.height = Math.max(getHeight(left.left), root.height) + 1;
@@ -81,6 +87,7 @@ public class RankTree {
         Node right = root.right;
         root.right = right.left;
         right.left = root;
+        right.count += root.count + 1;
         root.height =
                 Math.max(getHeight(root.left), getHeight(root.right)) + 1;
         right.height = Math.max(root.height, getHeight(right.right)) + 1;
@@ -105,6 +112,26 @@ public class RankTree {
             } else {
                 if (temp.left == null)
                     return false;
+                temp = temp.left;
+            }
+        }
+    }
+
+    public int getIndex(int n) {
+        Node temp = root;
+        int res = 0;
+        while (true) {
+            if (n == temp.data)
+                return res + temp.count;
+            if (n > temp.data) {
+                if (temp.right == null)
+                    return res + temp.count + 1;
+
+                res += temp.count + 1;
+                temp = temp.right;
+            } else {
+                if (temp.left == null)
+                    return res + 1;
                 temp = temp.left;
             }
         }
@@ -160,9 +187,12 @@ public class RankTree {
             print(sb, node.right);
     }
 
+    /**
+     * count in Node is the number of smaller elements than this current element.
+     */
     final static class Node {
         Node left, right;
-        int data, height = 1;
+        int data, height = 1, count = 0;
 
         Node(int i) {
             data = i;
