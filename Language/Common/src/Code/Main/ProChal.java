@@ -1,8 +1,9 @@
 package Code.Main;
 
 /**
- * @author: Ashok Rajpurohit (ashok1113@gmail.com)
  * Programming Challenge Questions
+ *
+ * @author: Ashok Rajpurohit (ashok1113@gmail.com)
  */
 
 public class ProChal {

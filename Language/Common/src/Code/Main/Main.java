@@ -10,8 +10,7 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
- * @author: Main Rajpurohit (ashok1113@gmail.com)
- *
+ * @author: Ashok Rajpurohit (ashok1113@gmail.com)
  */
 
 public class Main {
@@ -19,7 +18,7 @@ public class Main {
     private static PrintWriter out;
     private static InputStream in;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, Exception {
         OutputStream outputStream = System.out;
         in = System.in;
         out = new PrintWriter(outputStream);
@@ -35,10 +34,28 @@ public class Main {
         out.close();
     }
 
-    public void solve() throws IOException {
+    public void solve() throws IOException, Exception {
         InputReader in = new InputReader();
-        String str = in.read();
-        System.out.println(intsum(str));
+        //        Thread task = new MyTask();
+        //        task.start();
+        //        Thread.sleep(5000L);
+        //        inTask = true;
+        //        task.join();
+        while (true) {
+            System.out.println(DevKashyap.reverseWords(in.readLine()));
+        }
+        //        String str = in.read();
+        //        System.out.println(intsum(str));
+    }
+
+    private static boolean inTask = false;
+
+    private static class MyTask extends Thread {
+        public void run() {
+            while (!inTask) {
+                // do nothing
+            }
+        }
     }
 
     private static int intsum(String s) {
@@ -160,6 +177,37 @@ public class Main {
             return sb.toString();
         }
 
+        public String readLine() throws IOException {
+            StringBuilder sb = new StringBuilder();
+            if (offset == bufferSize) {
+                offset = 0;
+                bufferSize = in.read(buffer);
+            }
+
+            if (bufferSize == -1 || bufferSize == 0)
+                throw new IOException("No new bytes");
+
+            for (; buffer[offset] == '\n' || buffer[offset] == '\r';
+                 ++offset) {
+                if (offset == bufferSize - 1) {
+                    offset = -1;
+                    bufferSize = in.read(buffer);
+                }
+            }
+            for (; offset < bufferSize; ++offset) {
+                if (buffer[offset] == '\n' || buffer[offset] == '\r')
+                    break;
+                if (Character.isValidCodePoint(buffer[offset])) {
+                    sb.appendCodePoint(buffer[offset]);
+                }
+                if (offset == bufferSize - 1) {
+                    offset = -1;
+                    bufferSize = in.read(buffer);
+                }
+            }
+            return sb.toString();
+        }
+
         public String read(int n) throws IOException {
             StringBuilder sb = new StringBuilder(n);
             if (offset == bufferSize) {
@@ -192,29 +240,5 @@ public class Main {
             }
             return sb.toString();
         }
-    }
-}
-
-class Task implements Runnable {
-    private void do_stuff() {
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-        }
-    }
-
-    public void run() {
-        do_stuff();
-    }
-
-    static public void main(String[] args) {
-        Thread[] task_array =
-        { new Thread(new Code.Main.Task()), new Thread(new Code.Main.Task()),
-          new Thread(new Code.Main.Task()), new Thread(new Code.Main.Task()) };
-        task_array[0].start();
-        task_array[1].start();
-        task_array[2].run();
-        task_array[3].run();
-        System.out.println("Done");
     }
 }

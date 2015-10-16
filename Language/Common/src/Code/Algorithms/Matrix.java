@@ -113,6 +113,29 @@ public class Matrix {
         return result;
     }
 
+    private static boolean insert(Matrix a, Matrix b, int i, int j) {
+        if (i + b.n > a.n || j + b.m > a.m)
+            return false;
+
+        for (int k = 0; k < b.n; k++)
+            for (int m = 0; m < b.m; m++) {
+                a.matrix[i + k][j + m] = b.matrix[k][m];
+            }
+
+        return true;
+    }
+
+    private static boolean insertAdd(Matrix a, Matrix b, int i, int j) {
+        if (i + b.n > a.n || j + b.m > a.m)
+            return false;
+
+        for (int k = 0; k < b.n; k++)
+            for (int m = 0; m < b.m; m++)
+                a.matrix[i + k][j + m] += b.matrix[k][m];
+
+        return true;
+    }
+
     /**
      * Copy the contents of matrix temp into this matrix.
      * @param temp Temporary Matrix.

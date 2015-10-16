@@ -1,8 +1,10 @@
 package Code.DSA;
 
 /**
+ * This class implements functions related to prime numbers.
+ * Work in progress.
+ *
  * @author: Ashok Rajpurohit (ashok1113@gmail.com)
- * Prime Number Class.
  */
 
 public class Prime {
@@ -38,7 +40,7 @@ public class Prime {
         for (int i = 2; i <= root; i++) {
             while (ar[i])
                 i++;
-            for (int j = i + 1; j <= n; j++) {
+            for (int j = i * 2; j <= n; j += i) {
                 if (!ar[j]) {
                     ar[j] = j % i == 0;
                 }

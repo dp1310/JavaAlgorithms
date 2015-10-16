@@ -6,8 +6,8 @@ import java.math.BigInteger;
 /**
  * This class contains the functions implemented for Syncron
  * Online Coding Test.
- * @author Ankit Kumar akiankit33@gmail.com
- * @editor Ashok Rajpurohit ashok1113@gmail.com
+ *
+ * @ashok Ashok Rajpurohit ashok1113@gmail.com
  */
 public class Ankit {
     public Ankit() {
@@ -16,14 +16,51 @@ public class Ankit {
 
     public static void main(String[] args) {
         Ankit a = new Ankit();
-        for (int i = 1; i <= 1000000000; i = i * 10) {
-            System.out.println(i + "\t" + a.solution(i));
+        MyRegex mi = new MyRegex("266.23.45.34");
+        System.out.println(mi.isMatches());
+    }
+
+    final static class Color {
+        char color;
+        static int[][] sdim, edim;
+    }
+
+    private static int powOfFive(String s) {
+        int res = powOfFive(s, 0);
+        if (res == 50)
+            return -1;
+
+        return res;
+    }
+
+    private static int powOfFive(String s, int start) {
+        if (start == s.length())
+            return 0;
+        long num = 0;
+        int count = 50;
+        for (int i = start; i < s.length(); i++) {
+            num = (num << 1) + s.charAt(i) - '0';
+            if (isPowOfFive(num))
+                count = Math.min(count, 1 + powOfFive(s, i + 1));
         }
-        //        int[] arr = { 1, 2, 5, 9, 9 };
-        //        System.out.println(a.solution(arr, 1));
-        //        System.out.println(a.solution(arr, 2));
-        //        System.out.println(a.solution(arr, 5));
-        //        System.out.println(a.solution(arr, 9));
+
+        return count;
+    }
+
+    private static boolean isPowOfFive(long num) {
+        if (num == 1)
+            return true;
+
+        if (num < 5)
+            return false;
+
+        while (num >= 0) {
+            if (num % 5 != 0)
+                return false;
+
+            num /= 5;
+        }
+        return true;
     }
 
     /**
@@ -189,4 +226,84 @@ public class Ankit {
         }
         return -1;
     }
+
+    final static class MyRegex {
+        public static String pattern;
+
+        public MyRegex(String IP) {
+            pattern = IP;
+        }
+
+        public static boolean isMatches() {
+            System.out.println(pattern);
+            int a = 0;
+            int i = 0;
+            while (i < pattern.length() && pattern.charAt(i) != '.')
+                i++;
+
+            for (int j = 0; j < i; j++)
+                a = a * 10 + pattern.charAt(j) - '0';
+
+            if (a > 255)
+                return false;
+
+            System.out.println(a);
+
+            a = 0;
+            i++;
+            while (i < pattern.length() && i != '.')
+                i++;
+
+            for (int j = 0; j < i; j++)
+                a = a * 10 + pattern.charAt(j) - '0';
+
+            if (a > 255)
+                return false;
+
+            a = 0;
+            i++;
+            while (i < pattern.length() && i != '.')
+                i++;
+
+            for (int j = 0; j < i; j++)
+                a = a * 10 + pattern.charAt(j) - '0';
+
+            if (a > 255)
+                return false;
+
+            a = 0;
+            i++;
+            while (i < pattern.length() && i != '.')
+                i++;
+
+            for (int j = 0; j < i; j++)
+                a = a * 10 + pattern.charAt(j) - '0';
+
+            if (a > 255)
+                return false;
+
+            return true;
+        }
+    }
 }
+
+    /* final class Test4 {
+        public static void main(String[] args) {
+            new Test4();
+        }
+        class Inner {
+            void test() {
+                if (Test4.this.flag)
+                    simple();
+            }
+        }
+        
+        private boolean flag = true;
+        public void simple() {
+            System.out.println("Simple");
+        }
+        
+        public Test4() {
+            (new Inner()).test();
+        }
+    } */

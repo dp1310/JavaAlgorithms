@@ -28,7 +28,7 @@ public class Ashok {
         //        in = fip;
         //        out = new PrintWriter(fop);
 
-        Code.Input.Ashok a = new Code.Input.Ashok();
+        Ashok a = new Ashok();
         a.solve();
         out.close();
     }

@@ -53,8 +53,12 @@ public class List<T> implements Iterable {
         return size;
     }
 
-    public Node getHead() {
-        return head;
+    public T getHead() {
+        return head.data;
+    }
+
+    public T getLast() {
+        return tail.data;
     }
 
     public Iterator<Node<T>> iterator() {
