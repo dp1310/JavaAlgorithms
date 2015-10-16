@@ -1,5 +1,8 @@
 package Code.DSA;
 
+/**
+ * @author Ashok Rajpurohit (ashok1113@gmail.com)
+ */
 public class Random {
     private long x = 100003, y = 1003, m; //0x5DEECE66DL
     long a, b;
