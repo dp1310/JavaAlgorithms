@@ -117,6 +117,15 @@ public class RankTree {
         }
     }
 
+    /**
+     * This function returns how many elements smaller than or equal to
+     * the parameter n are present(inserted previously) in the data structure.
+     * If you want to know how many elements greater than n are present,
+     * use size - getIndex(n)
+     *
+     * @param n
+     * @return
+     */
     public int getIndex(int n) {
         Node temp = root;
         int res = 0;
