@@ -1,17 +1,27 @@
 package Code.DSA;
 
-public class RedBlackTree<T> {
+/**
+ *
+ *
+ * @author Ashok Rajpurohit (ashok1113@gmail.com)
+ */
+public class RedBlackTree {
+    private final static Node NIL = new Node(0);
     private int size = 0;
-    private Node<T> root;
+    private Node root;
 
-    public RedBlackTree(T t) {
-        size = 1;
-        root = new Node<T>(t);
+    static {
+        NIL.red = false;
     }
 
-    public RedBlackTree(T[] ar) {
+    public RedBlackTree(int t) {
         size = 1;
-        root = new Node<T>(ar[0]);
+        root = new Node(t);
+        root.red = false;
+    }
+
+    public RedBlackTree(int[] ar) {
+        this(ar[0]);
 
         for (int i = 1; i < ar.length; i++)
             add(ar[i]);
@@ -21,9 +31,44 @@ public class RedBlackTree<T> {
         return size;
     }
 
-    public void add(T value) {
+    public void add(int value) {
+        insert(value);
+    }
+
+    private void insert(int value) {
         size++;
-        // write code
+        Node temp = root;
+
+        while (true) {
+            if (temp.key >= value) {
+                if (temp.left == NIL) {
+                    temp.left = new Node(value);
+                    temp.left.parent = temp;
+                    return;
+                }
+                temp = temp.left;
+            } else {
+                if (temp.right == NIL) {
+                    temp.right = new Node(value);
+                    temp.right.parent = temp;
+                    return;
+                }
+                temp = temp.right;
+            }
+        }
+    }
+
+    public boolean contains(int value) {
+        Node node = root;
+
+        while (node != NIL && node.key != value) {
+            if (node.key > value)
+                node = node.left;
+            else
+                node = node.right;
+        }
+
+        return node != NIL;
     }
 
     private static void add(Node node, int value) {
@@ -35,7 +80,7 @@ public class RedBlackTree<T> {
         node.right = right.left;
         right.left = node;
 
-        if (node.right != null)
+        if (node.right != NIL)
             node.right.parent = node;
 
         right.parent = node.parent;
@@ -48,7 +93,7 @@ public class RedBlackTree<T> {
         node.left = left.right;
         left.right = node;
 
-        if (node.left != null)
+        if (node.left != NIL)
             node.left.parent = node;
 
         left.parent = node.parent;
@@ -56,12 +101,12 @@ public class RedBlackTree<T> {
         return left;
     }
 
-    final static class Node<T> {
-        T key;
-        boolean red;
-        Node left, right, parent;
+    final static class Node {
+        int key;
+        boolean red = true;
+        Node left = NIL, right = NIL, parent = NIL;
 
-        Node(T value) {
+        Node(int value) {
             key = value;
         }
     }

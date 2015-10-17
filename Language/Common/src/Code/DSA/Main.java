@@ -125,13 +125,12 @@ public class Main {
         long len = 0x5DEECE66DL;
         RandomStrings random = new RandomStrings();
 
-        RedBlackTree<Integer> rb = new RedBlackTree<Integer>(0);
+        RedBlackTree rb = new RedBlackTree(0);
         while (true) {
-            rb.add(in.readInt());
-            System.out.println(rb.size());
+            int t = in.readInt();
+            System.out.println(rb.contains(t));
+            rb.add(t);
         }
-
-
     }
 
     private static void print(int[] ar) {
