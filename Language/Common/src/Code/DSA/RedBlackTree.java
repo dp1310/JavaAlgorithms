@@ -17,7 +17,7 @@ public class RedBlackTree<T> {
             add(ar[i]);
     }
 
-    public int getSize() {
+    public int size() {
         return size;
     }
 
@@ -26,15 +26,40 @@ public class RedBlackTree<T> {
         // write code
     }
 
-    private static void add(Node<T> node, int value) {
+    private static void add(Node node, int value) {
         // write code here;
     }
 
+    private Node rotateLeft(Node node) {
+        Node right = node.right;
+        node.right = right.left;
+        right.left = node;
+
+        if (node.right != null)
+            node.right.parent = node;
+
+        right.parent = node.parent;
+        node.parent = right;
+        return right;
+    }
+
+    private Node rotateRight(Node node) {
+        Node left = node.left;
+        node.left = left.right;
+        left.right = node;
+
+        if (node.left != null)
+            node.left.parent = node;
+
+        left.parent = node.parent;
+        node.parent = left;
+        return left;
+    }
 
     final static class Node<T> {
         T key;
         boolean red;
-        Node left, right;
+        Node left, right, parent;
 
         Node(T value) {
             key = value;

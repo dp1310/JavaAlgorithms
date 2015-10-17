@@ -125,11 +125,10 @@ public class Main {
         long len = 0x5DEECE66DL;
         RandomStrings random = new RandomStrings();
 
-        RankTree rt = new RankTree();
+        RedBlackTree<Integer> rb = new RedBlackTree<Integer>(0);
         while (true) {
-            int v = in.readInt();
-            rt.add(v);
-            System.out.println(rt.getIndex(v));
+            rb.add(in.readInt());
+            System.out.println(rb.size());
         }
 
 
