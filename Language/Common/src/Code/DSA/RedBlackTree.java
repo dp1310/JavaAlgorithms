@@ -11,17 +11,18 @@ package Code.DSA;
  */
 public class RedBlackTree {
     private final static Node NIL = new Node(0);
+    private final static boolean RED = true, BLACK = false;
     private int size = 0;
     private Node root;
 
     static {
-        NIL.red = false;
+        NIL.color = BLACK;
     }
 
     public RedBlackTree(int t) {
         size = 1;
         root = new Node(t);
-        root.red = false;
+        root.color = BLACK;
     }
 
     public RedBlackTree(int[] ar) {
@@ -38,7 +39,7 @@ public class RedBlackTree {
     public void add(int value) {
         Node node = insert(value);
         insertFix(node);
-        root.red = false;
+        root.color = BLACK;
     }
 
     private Node insert(int value) {
@@ -65,37 +66,37 @@ public class RedBlackTree {
     }
 
     private void insertFix(Node node) {
-        while (node.parent.red) {
+        while (node.parent.color == RED) {
             if (node.parent == node.parent.parent.left) {
                 Node tau = node.parent.parent.right;
 
-                if (tau.red) {
-                    node.parent.red = false;
-                    tau.red = false;
-                    node.parent.parent.red = true;
+                if (tau.color == RED) {
+                    node.parent.color = BLACK;
+                    tau.color = BLACK;
+                    node.parent.parent.color = RED;
                     node = node.parent.parent;
                 } else if (node == node.parent.right) {
                     node = node.parent;
                     rotateLeft(node);
                 } else if (node == node.parent.left) {
-                    node.parent.red = false;
-                    node.parent.parent.red = true;
+                    node.parent.color = BLACK;
+                    node.parent.parent.color = RED;
                     rotateRight(node.parent);
                 }
             } else {
                 Node chacha = node.parent.parent.left;
 
-                if (chacha.red) {
-                    node.parent.red = false;
-                    chacha.red = false;
-                    node.parent.parent.red = true;
+                if (chacha.color == RED) {
+                    node.parent.color = BLACK;
+                    chacha.color = BLACK;
+                    node.parent.parent.color = RED;
                     node = node.parent.parent;
                 } else if (node == node.parent.right) {
                     node = node.parent;
                     rotateLeft(node);
                 } else if (node == node.parent.left) {
-                    node.parent.red = false;
-                    node.parent.parent.red = true;
+                    node.parent.color = BLACK;
+                    node.parent.parent.color = RED;
                     rotateRight(node.parent);
                 }
             }
@@ -145,7 +146,7 @@ public class RedBlackTree {
 
     private void delete(Node node) {
         Node copy = node, fixUp = NIL;
-        boolean copy_red = copy.red;
+        boolean copy_red = copy.color;
 
         if (node.left == NIL) {
             fixUp = node.right;
@@ -155,7 +156,7 @@ public class RedBlackTree {
             replace(node, node.left);
         } else {
             copy = findMin(node.right);
-            copy_red = copy.red;
+            copy_red = copy.color;
             fixUp = copy.right;
 
             if (copy.parent == node)
@@ -169,7 +170,7 @@ public class RedBlackTree {
             replace(node, copy);
             copy.left = node.left;
             copy.left.parent = copy;
-            copy.red = node.red;
+            copy.color = node.color;
         }
 
         if (!copy_red)
@@ -184,7 +185,62 @@ public class RedBlackTree {
     }
 
     private void deleteFix(Node node) {
+        while (node != root && node.color == BLACK) {
+            if (node == node.parent.left) {
+                Node temp = node.parent.right;
+                if (temp.color == RED) {
+                    temp.color = BLACK;
+                    node.parent.color = RED;
+                    rotateLeft(node.parent);
+                    temp = node.parent.right;
+                }
 
+                if (temp.left.color == BLACK && temp.right.color == BLACK) {
+                    temp.color = RED;
+                    node = node.parent;
+                } else {
+                    if (temp.right.color == BLACK) {
+                        temp.left.color = BLACK;
+                        temp.color = RED;
+                        rotateRight(temp);
+                        temp = node.parent.right;
+                    }
+
+                    temp.color = node.parent.color;
+                    node.parent.color = BLACK;
+                    temp.right.color = BLACK;
+                    rotateLeft(node.parent);
+                    node = root;
+                }
+            } else {
+                Node temp = node.parent.left;
+                if (temp.color == RED) {
+                    temp.color = BLACK;
+                    node.parent.color = RED;
+                    rotateRight(node.parent);
+                    temp = node.parent.left;
+                }
+
+                if (temp.left.color == BLACK && temp.right.color == BLACK) {
+                    temp.color = RED;
+                    node = node.parent;
+                } else {
+                    if (temp.left.color == BLACK) {
+                        temp.right.color = BLACK;
+                        temp.color = RED;
+                        rotateLeft(temp);
+                        temp = node.parent.left;
+                    }
+
+                    temp.color = node.parent.color;
+                    node.parent.color = BLACK;
+                    temp.left.color = BLACK;
+                    rotateRight(node.parent);
+                    node = root;
+                }
+            }
+        }
+        node.color = BLACK;
     }
 
     private void replace(Node u, Node v) {
@@ -212,7 +268,7 @@ public class RedBlackTree {
 
     final static class Node {
         int key;
-        boolean red = true;
+        boolean color = RED;
         Node left = NIL, right = NIL, parent = NIL;
 
         Node(int value) {
