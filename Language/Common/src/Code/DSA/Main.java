@@ -127,9 +127,9 @@ public class Main {
 
         RedBlackTree rb = new RedBlackTree(0);
         while (true) {
-            int t = in.readInt();
-            System.out.println(rb.contains(t));
-            rb.add(t);
+            String s = "Ashok Rajpurohit";
+            s.length();
+            s.charAt(3);
         }
     }
 

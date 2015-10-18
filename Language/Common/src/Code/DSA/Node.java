@@ -33,7 +33,7 @@ class Node<T> implements Iterator {
      * This method will do nothing.
      */
     public void remove() {
-        // do nothing.
+        next = next.next;
     }
 
     public String toString() {
