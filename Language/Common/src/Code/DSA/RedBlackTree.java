@@ -107,10 +107,6 @@ public class RedBlackTree {
         return find(value) != NIL;
     }
 
-    private static void add(Node node, int value) {
-        // write code here;
-    }
-
     private Node rotateLeft(Node node) {
         Node right = node.right;
         node.right = right.left;
@@ -138,6 +134,9 @@ public class RedBlackTree {
     }
 
     public void remove(int value) {
+        if (size == 0)
+            return;
+
         Node node = find(value);
 
         if (node != NIL)
@@ -145,6 +144,7 @@ public class RedBlackTree {
     }
 
     private void delete(Node node) {
+        size--;
         Node copy = node, fixUp = NIL;
         boolean copy_red = copy.color;
 
