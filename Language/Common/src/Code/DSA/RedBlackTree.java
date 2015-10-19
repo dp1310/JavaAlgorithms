@@ -3,6 +3,8 @@ package Code.DSA;
 /**
  * This is implementation of Red-Black Tree as explained in Introduction
  * to Algorithms by CLRS. Please refer the same for more details.
+ * All the methods here are implementation of psuedo code from "Introduction to
+ * Algorithms" by Cormen.
  *
  * @author Ashok Rajpurohit (ashok1113@gmail.com)
  * @see     Code.DSA.BSTAVL
@@ -36,7 +38,13 @@ public class RedBlackTree {
         return size;
     }
 
+    /**
+     * Adds the specified element to this tree.
+     *
+     * @param value element to be added to this tree
+     */
     public void add(int value) {
+        ++size;
         Node node = insert(value);
         insertFix(node);
     }
@@ -64,6 +72,12 @@ public class RedBlackTree {
         }
     }
 
+    /**
+     * Restructures the tree in case if any property is violated during
+     * element addition.
+     *
+     * @param node
+     */
     private void insertFix(Node node) {
         while (node.parent.color == RED) {
             if (node.parent == node.parent.parent.left) {
@@ -105,8 +119,41 @@ public class RedBlackTree {
         root.color = BLACK;
     }
 
+    /**
+     * Returns <tt>true</tt> if this set contains the specified element.
+     *
+     * @param value element whose presence in this tree is to be tested
+     * @return <tt>true</tt> if this tree contains the specified element
+     */
     public boolean contains(int value) {
         return find(value) != NIL;
+    }
+
+    public int successor(int value) {
+        Node node = find(value);
+        if (node == NIL)
+            throw new RuntimeException("No such element exists: " + value);
+
+        if (node.right != NIL)
+            return findMin(node.right).key;
+
+        /* Need to work more
+           if (node.parent != NIL)
+            return node.parent.key; */
+
+        throw new RuntimeException("No successor exists for " + value);
+    }
+
+    public int predecessor(int value) {
+        Node node = find(value);
+        if (node == NIL)
+            throw new RuntimeException("No such element exists: " + value);
+
+        if (node.left != NIL)
+            return findMax(node.left).key;
+
+        // need to work more
+        throw new RuntimeException("No predecessor exists for " + value);
     }
 
     private void rotateLeft(Node node) {
@@ -164,7 +211,7 @@ public class RedBlackTree {
     }
 
     private void delete(Node node) {
-        size--;
+        --size;
         Node copy = node, fixUp = NIL;
         boolean copy_red = copy.color;
 
@@ -200,6 +247,13 @@ public class RedBlackTree {
     private Node findMin(Node node) {
         while (node.left != NIL)
             node = node.left;
+
+        return node;
+    }
+
+    private Node findMax(Node node) {
+        while (node.right != NIL)
+            node = node.right;
 
         return node;
     }
