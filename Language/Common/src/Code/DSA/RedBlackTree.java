@@ -39,7 +39,6 @@ public class RedBlackTree {
     public void add(int value) {
         Node node = insert(value);
         insertFix(node);
-        root.color = BLACK;
     }
 
     private Node insert(int value) {
@@ -47,7 +46,7 @@ public class RedBlackTree {
         Node temp = root;
 
         while (true) {
-            if (temp.key >= value) {
+            if (temp.key > value) {
                 if (temp.left == NIL) {
                     temp.left = new Node(value);
                     temp.left.parent = temp;
@@ -75,13 +74,14 @@ public class RedBlackTree {
                     tau.color = BLACK;
                     node.parent.parent.color = RED;
                     node = node.parent.parent;
-                } else if (node == node.parent.right) {
-                    node = node.parent;
-                    rotateLeft(node);
-                } else if (node == node.parent.left) {
+                } else {
+                    if (node == node.parent.right) {
+                        node = node.parent;
+                        rotateLeft(node);
+                    }
                     node.parent.color = BLACK;
                     node.parent.parent.color = RED;
-                    rotateRight(node.parent);
+                    rotateRight(node.parent.parent);
                 }
             } else {
                 Node chacha = node.parent.parent.left;
@@ -91,46 +91,66 @@ public class RedBlackTree {
                     chacha.color = BLACK;
                     node.parent.parent.color = RED;
                     node = node.parent.parent;
-                } else if (node == node.parent.right) {
-                    node = node.parent;
-                    rotateLeft(node);
-                } else if (node == node.parent.left) {
+                } else {
+                    if (node == node.parent.right) {
+                        node = node.parent;
+                        rotateLeft(node);
+                    }
                     node.parent.color = BLACK;
                     node.parent.parent.color = RED;
-                    rotateRight(node.parent);
+                    rotateRight(node.parent.parent);
                 }
             }
         }
+        root.color = BLACK;
     }
 
     public boolean contains(int value) {
         return find(value) != NIL;
     }
 
-    private Node rotateLeft(Node node) {
+    private void rotateLeft(Node node) {
+        if (node.right == NIL)
+            return;
+
         Node right = node.right;
         node.right = right.left;
-        right.left = node;
-
-        if (node.right != NIL)
-            node.right.parent = node;
-
+        right.left.parent = node;
         right.parent = node.parent;
+
+        if (node.parent == NIL)
+            root = right;
+        else {
+            if (node == node.parent.left)
+                node.parent.left = right;
+            else
+                node.parent.right = right;
+        }
+
+        right.left = node;
         node.parent = right;
-        return right;
     }
 
-    private Node rotateRight(Node node) {
+    private void rotateRight(Node node) {
+        if (node.left == NIL)
+            return;
+
         Node left = node.left;
         node.left = left.right;
-        left.right = node;
-
-        if (node.left != NIL)
-            node.left.parent = node;
-
+        left.right.parent = node;
         left.parent = node.parent;
+
+        if (node.parent == NIL)
+            root = left;
+        else {
+            if (node == node.parent.left)
+                node.parent.left = left;
+            else
+                node.parent.right = left;
+        }
+
+        left.right = node;
         node.parent = left;
-        return left;
     }
 
     public void remove(int value) {
