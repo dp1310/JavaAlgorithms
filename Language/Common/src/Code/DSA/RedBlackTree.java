@@ -137,9 +137,11 @@ public class RedBlackTree {
         if (node.right != NIL)
             return findMin(node.right).key;
 
-        /* Need to work more
-           if (node.parent != NIL)
-            return node.parent.key; */
+        while (node.parent != NIL && node == node.parent.right)
+            node = node.parent;
+
+        if (node.parent != NIL)
+            return node.parent.key;
 
         throw new RuntimeException("No successor exists for " + value);
     }
@@ -152,7 +154,12 @@ public class RedBlackTree {
         if (node.left != NIL)
             return findMax(node.left).key;
 
-        // need to work more
+        while (node.parent != NIL && node == node.parent.left)
+            node = node.parent;
+
+        if (node.parent != NIL)
+            return findMin(node.parent).key;
+
         throw new RuntimeException("No predecessor exists for " + value);
     }
 
