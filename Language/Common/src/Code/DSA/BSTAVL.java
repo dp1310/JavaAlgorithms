@@ -63,6 +63,102 @@ public class BSTAVL {
         return root;
     }
 
+    private static Node findMin(Node node) {
+        while (node.left != null)
+            node = node.left;
+
+        return node;
+    }
+
+    private static Node findMax(Node node) {
+        while (node.right != null)
+            node = node.right;
+
+        return node;
+    }
+
+    public void remove(int n) {
+        root = delete(root, n);
+    }
+
+    public void update(int oldVal, int newVal) {
+        if (oldVal == newVal)
+            return;
+
+        root = delete(root, oldVal);
+        root = add(root, newVal);
+    }
+
+    private static Node delete(Node root, int n) {
+        if (root.data == n) {
+            if (root.left != null) {
+                Node del = findMax(root.left);
+                root.data = del.data;
+                root.left = delete(root.left, root.data);
+
+                if (root.left.height - getHeight(root.right) == -2)
+                    root = RotateLL(root);
+
+                root.height =
+                        Math.max(getHeight(root.left), getHeight(root.right)) +
+                        1;
+                return root;
+            } else if (root.right != null) {
+                Node del = findMin(root.right);
+                root.data = del.data;
+                root.right = delete(root.right, root.data);
+
+                if (getHeight(root.right) == 2)
+                    root = RotateRR(root);
+
+                root.height =
+                        Math.max(getHeight(root.left), getHeight(root.right)) +
+                        1;
+                return root;
+            }
+
+            return null;
+        }
+
+        if (root.data < n) {
+            root.right = delete(root.right, n);
+
+            if (getHeight(root.left) - getHeight(root.right) == 2) {
+                if (getHeight(root.left.left) > getHeight(root.left.right))
+                    root = RotateLL(root);
+                else
+                    root = RotateLR(root);
+            } else if (getHeight(root.left) - getHeight(root.right) == -2) {
+                if (getHeight(root.right.right) > getHeight(root.right.left))
+                    root = RotateRR(root);
+                else
+                    root = RotateRL(root);
+            }
+
+            root.height =
+                    Math.max(getHeight(root.left), getHeight(root.right)) + 1;
+            return root;
+        }
+
+        root.left = delete(root.left, n);
+
+        if (getHeight(root.left) - getHeight(root.right) == 2) {
+            if (getHeight(root.left.left) > getHeight(root.left.right))
+                root = RotateLL(root);
+            else
+                root = RotateLR(root);
+        } else if (getHeight(root.left) - getHeight(root.right) == -2) {
+            if (getHeight(root.right.right) > getHeight(root.right.left))
+                root = RotateRR(root);
+            else
+                root = RotateRL(root);
+        }
+
+        root.height =
+                Math.max(getHeight(root.left), getHeight(root.right)) + 1;
+        return root;
+    }
+
     private static Node RotateLL(Node root) {
         Node left = root.left;
         root.left = left.right;
