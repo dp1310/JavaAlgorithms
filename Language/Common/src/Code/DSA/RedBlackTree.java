@@ -44,7 +44,6 @@ public class RedBlackTree {
      * @param value element to be added to this tree
      */
     public void add(int value) {
-        ++size;
         Node node = insert(value);
         insertFix(node);
     }
@@ -215,6 +214,30 @@ public class RedBlackTree {
 
         if (node != NIL)
             delete(node);
+    }
+
+    public void update(int oldValue, int newValue) {
+        if (size == 0 || oldValue == newValue)
+            return;
+
+        Node node = find(oldValue);
+        if (node == NIL)
+            throw new RuntimeException("key does not exists");
+
+        Node end = NIL;
+
+        if (node.left != NIL)
+            end = findMax(node.left);
+        else if (node.right != NIL)
+            end = findMin(node.right);
+        else {
+            node.key = newValue;
+            return;
+        }
+
+        node.key = end.key;
+        delete(end);
+        insert(newValue);
     }
 
     private void delete(Node node) {

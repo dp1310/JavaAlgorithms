@@ -99,7 +99,7 @@ public class BSTAVL {
         return root.height;
     }
 
-    public boolean find(int n) {
+    public boolean contains(int n) {
         Node temp = root;
         while (true) {
             if (n == temp.data)
@@ -149,7 +149,7 @@ public class BSTAVL {
     }
 
     public String print() {
-        StringBuilder sb = new StringBuilder(size << 3);
+        StringBuilder sb = new StringBuilder(size << 2);
         print(sb, root);
         return sb.toString();
     }

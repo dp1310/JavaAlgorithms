@@ -69,7 +69,7 @@ public class Main {
         RandomStrings random = new RandomStrings();
         int[] ar = new int[n];
         for (int i = 0; i < n; i++)
-            ar[i] = random.nextInt(1000);
+            ar[i] = random.nextInt();
 
         //        int temp = random.nextInt();
         //        for (int i = 0; i < n >>> 3; i++)
@@ -124,12 +124,41 @@ public class Main {
         InputReader in = new InputReader();
         long len = 0x5DEECE66DL;
         RandomStrings random = new RandomStrings();
+        TreeMap tm = new TreeMap();
 
-        RedBlackTree rb = new RedBlackTree(0);
         while (true) {
-            String s = "Ashok Rajpurohit";
-            s.length();
-            s.charAt(3);
+            int n = in.readInt();
+            int[] ar = gen_rand(n);
+            long t = System.currentTimeMillis();
+            BSTAVL rbt = new BSTAVL(ar);
+            System.out.println(System.currentTimeMillis() - t);
+
+            t = System.currentTimeMillis();
+            TreeMap bt = new TreeMap();
+            for (int i = 0; i < n; i++)
+                bt.put(ar[i], ar[i]);
+            System.out.println(System.currentTimeMillis() - t);
+
+            int[] search = gen_rand(in.readInt());
+            boolean[] rbar = new boolean[search.length];
+            boolean[] avlar = new boolean[search.length];
+
+            t = System.currentTimeMillis();
+            for (int i = 0; i < search.length; i++)
+                rbar[i] = rbt.contains(search[i]);
+            System.out.println(System.currentTimeMillis() - t);
+
+            t = System.currentTimeMillis();
+            for (int i = 0; i < search.length; i++)
+                avlar[i] = bt.containsKey(search[i]);
+            System.out.println(System.currentTimeMillis() - t);
+
+            boolean match = true;
+            for (int i = 0; i < search.length && match; i++)
+                match = rbar[i] == avlar[i];
+
+            System.out.println("result is :\t" + match);
+            System.out.println(line);
         }
     }
 
