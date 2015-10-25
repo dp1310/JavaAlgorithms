@@ -100,7 +100,7 @@ public class RankTree {
         return root.height;
     }
 
-    public boolean find(int n) {
+    public boolean contains(int n) {
         Node temp = root;
         while (true) {
             if (n == temp.data)

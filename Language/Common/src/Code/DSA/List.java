@@ -7,8 +7,8 @@ import java.util.Iterator;
  * @author Ashok Rajpurohit ashok1113@gmail.com
  */
 public class List<T> implements Iterable {
-    Node<T> head, tail;
-    int size = 0;
+    private Node<T> head, tail;
+    private int size = 0;
 
     public List() {
         // do nothing
@@ -43,6 +43,35 @@ public class List<T> implements Iterable {
         size++;
         tail.next = new Node<T>(t);
         tail = tail.next;
+    }
+
+    public void delete(T t) {
+        if (size == 0)
+            return;
+
+        if (head.data.equals(t)) {
+            head = head.next;
+            --size;
+            return;
+        }
+
+        Node temp = head;
+        while (temp.next != null && temp.next.data != t)
+            temp = temp.next;
+
+        if (temp.next != null)
+            temp.next = temp.next.next;
+    }
+
+    public boolean contains(T t) {
+        if (size == 0)
+            return false;
+
+        Node temp = head;
+        while (temp != null && temp.data != t)
+            temp = temp.next;
+
+        return temp != null;
     }
 
     public boolean isEmpty() {

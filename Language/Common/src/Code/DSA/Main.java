@@ -129,6 +129,7 @@ public class Main {
         while (true) {
             int n = in.readInt();
             int[] ar = gen_rand(n);
+            Arrays.sort(ar);
             long t = System.currentTimeMillis();
             BSTAVL rbt = new BSTAVL(ar);
             System.out.println(System.currentTimeMillis() - t);
