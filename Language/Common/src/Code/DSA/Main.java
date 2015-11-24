@@ -1,40 +1,25 @@
 package Code.DSA;
 
-import Code.Algorithms.Matrix;
+import Code.Graph.Graph;
+import Code.Graph.GraphList;
 
-import Code.Algorithms.Strings;
-
-import Code.Geometry.Line;
-import Code.Geometry.LineSegment;
-import Code.Geometry.Point;
-import Code.Geometry.Polygon;
-
-import Code.Main.DevKashyap;
-
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
+import java.lang.reflect.Array;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-//import java.util.Random;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.Stack;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 /**
  * This class is for testing purpose only.
@@ -49,7 +34,7 @@ public class Main {
     private static String line =
         "---------------------------------------------------------------------";
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         OutputStream outputStream = System.out;
         in = System.in;
         out = new PrintWriter(outputStream);
@@ -61,13 +46,59 @@ public class Main {
         //        out = new PrintWriter(fop);
 
         Main a = new Main();
-        a.solve();
-        out.close();
+        try {
+            a.solve();
+        } catch (Exception e) {
+            e.printStackTrace(out);
+            out.close();
+        }
+    }
+
+    public void solve() throws IOException {
+        InputReader in = new InputReader();
+        RandomStrings random = new RandomStrings();
+
+        while (true) {
+            int n = in.readInt();
+            Graph graph = new Graph(n, true);
+            int edges = in.readInt();
+
+            for (int i = 0; i < edges; i++)
+                graph.addEdge(in.readInt(), in.readInt());
+
+            for (Integer e : graph.connectedComponents(in.readInt()))
+                out.print(e + ", ");
+            out.println();
+
+            for (Integer e :
+                 graph.transpose().connectedComponents(in.readInt()))
+                out.print(e + ", ");
+            out.println();
+
+            for (Integer e : graph.stronglyConnected(in.readInt()))
+                out.print(e + ": ");
+            out.println();
+
+            out.println(line);
+            out.flush();
+        }
     }
 
     private static int[] gen_rand(int n) {
         RandomStrings random = new RandomStrings();
         int[] ar = new int[n];
+        for (int i = 0; i < n; i++)
+            ar[i] = random.nextInt();
+
+        //        int temp = random.nextInt();
+        //        for (int i = 0; i < n >>> 3; i++)
+
+        return ar;
+    }
+
+    private static Integer[] gen_rando(int n) {
+        RandomStrings random = new RandomStrings();
+        Integer[] ar = new Integer[n];
         for (int i = 0; i < n; i++)
             ar[i] = random.nextInt();
 
@@ -120,54 +151,20 @@ public class Main {
         return ar;
     }
 
-    public void solve() throws IOException {
-        InputReader in = new InputReader();
-        long len = 0x5DEECE66DL;
-        RandomStrings random = new RandomStrings();
-        TreeMap tm = new TreeMap();
+    private static int gcd(int a, int b) {
+        if (b == 0)
+            return a;
 
-        while (true) {
-            int n = in.readInt();
-            int[] ar = gen_rand(n);
-            Arrays.sort(ar);
-            long t = System.currentTimeMillis();
-            BSTAVL rbt = new BSTAVL(ar);
-            System.out.println(System.currentTimeMillis() - t);
-
-            t = System.currentTimeMillis();
-            TreeMap bt = new TreeMap();
-            for (int i = 0; i < n; i++)
-                bt.put(ar[i], ar[i]);
-            System.out.println(System.currentTimeMillis() - t);
-
-            int[] search = gen_rand(in.readInt());
-            boolean[] rbar = new boolean[search.length];
-            boolean[] avlar = new boolean[search.length];
-
-            t = System.currentTimeMillis();
-            for (int i = 0; i < search.length; i++)
-                rbar[i] = rbt.contains(search[i]);
-            System.out.println(System.currentTimeMillis() - t);
-
-            t = System.currentTimeMillis();
-            for (int i = 0; i < search.length; i++)
-                avlar[i] = bt.containsKey(search[i]);
-            System.out.println(System.currentTimeMillis() - t);
-
-            boolean match = true;
-            for (int i = 0; i < search.length && match; i++)
-                match = rbar[i] == avlar[i];
-
-            System.out.println("result is :\t" + match);
-            System.out.println(line);
-        }
+        return gcd(b, a % b);
     }
 
     private static void print(int[] ar) {
         StringBuilder sb = new StringBuilder(ar.length);
-        for (int i = 0; i < ar.length; i++)
+        for (int i = 0; i < ar.length - 1; i++)
             sb.append(ar[i]).append(", ");
-        System.out.println(sb);
+
+        sb.append(ar[ar.length - 1]).append('\n');
+        System.out.print(sb);
     }
 
     private static int getmin(String s) {

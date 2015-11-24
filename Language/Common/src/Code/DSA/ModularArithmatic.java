@@ -54,7 +54,8 @@ public class ModularArithmatic {
      * It uses basically Extended Euclid Algorithm. This method doesn't return
      * inverse Modulo, it actually returns the number to which if multiplied
      * and taken modulo mod equals to GCD of a and mod. So if a and mod are
-     * coprime then it is inverse modulo other than that, you know what I mean.
+     * coprime then it is inverse modulo other wise this method should return
+     * 0 (zero).
      *
      * @param a
      * @param mod
@@ -62,7 +63,7 @@ public class ModularArithmatic {
      */
     public static long inverseModulo(long a, long mod) {
         if (a % mod == mod - 1)
-            return a % mod;
+            return mod - 1;
 
         if (gcd(a, mod) > 1)
             return 0;

@@ -90,6 +90,46 @@ public class Prime {
     }
 
     /**
+     * Returns array of prime numbers in given range. start and end are inclusive.
+     *
+     * @param start start point of range
+     * @param end end of the range
+     * @return array of primes number in the range
+     */
+    public static int[] primesInRange(int start, int end) {
+        if (start > end)
+            return primesInRange(end, start);
+
+        boolean[] ar = new boolean[end + 1 - start];
+        int p = (int)Math.sqrt(end);
+        int[] primes = gen_prime(p);
+
+        for (int i = 0; i < primes.length; i++) {
+            int j = (start + primes[i] - 1) / primes[i];
+            j = j * primes[i] - start;
+
+            for (; j < ar.length; j += primes[i])
+                ar[j] = true;
+        }
+
+        int count = 0;
+        for (int i = 0; i < ar.length; i++) {
+            if (!ar[i]) {
+                count++;
+            }
+        }
+
+        int[] res = new int[count];
+        for (int i = 0, j = 0; j < count; i++)
+            if (!ar[i]) {
+                res[j] = start + i;
+                j++;
+            }
+
+        return res;
+    }
+
+    /**
      * this function is now corrected.
      * @param n
      * @return returns true if n is prime else false

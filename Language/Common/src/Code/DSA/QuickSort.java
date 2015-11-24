@@ -363,16 +363,16 @@ public class QuickSort {
     }
 
     private static void twoWaySedgewick(int[] ar, int start, int end) {
-        if (start >= end)
+        if (start >= end || isSorted(ar, start, end))
             return;
 
-        if (isSorted(ar, start, end))
-            return;
-
-        //        if (end - start < 3) {
-        //            goTrivial(ar, start, end);
+        //        if (isSorted(ar, start, end))
         //            return;
-        //        }
+
+        if (end - start < 3) {
+            goTrivial(ar, start, end);
+            return;
+        }
 
         int m = medianOfThree(ar, start, end);
         swap(ar, start, m);
@@ -412,10 +412,7 @@ public class QuickSort {
     }
 
     private static void Dijkstra3Way(int[] ar, int start, int end) {
-        if (start >= end)
-            return;
-
-        if (isSorted(ar, start, end))
+        if (start >= end || isSorted(ar, start, end))
             return;
 
         int m = medianOfThree(ar, start, end);
@@ -519,17 +516,22 @@ public class QuickSort {
     }
 
     private static void DualPivot(int[] ar, int start, int end) {
-        if (start >= end)
+        if (start >= end || isSorted(ar, start, end))
             return;
 
-        if (ar[start] > ar[end])
-            swap(ar, start, end);
-
-        if (end == start + 1)
+        if (end - start < 3) {
+            goTrivial(ar, start, end);
             return;
+        }
 
-        if (isSorted(ar, start, end))
-            return;
+        //        if (ar[start] > ar[end])
+        //            swap(ar, start, end);
+        //
+        //        if (end == start + 1)
+        //            return;
+
+        //                if (isSorted(ar, start, end))
+        //                    return;
 
         int lt = start + 1, i = start + 1, gt = end - 1;
         while (i <= gt) {

@@ -113,6 +113,27 @@ public class Matrix {
         return result;
     }
 
+    public static Matrix pow(Matrix a, long n) throws Exception {
+        if (a.n != a.m)
+            throw new Exception("Matrix should be square matrix only");
+        Matrix result = new Matrix(a.matrix);
+        if (n == 1)
+            return result;
+
+        Matrix temp = new Matrix(a.matrix);
+
+        long r = Long.highestOneBit(n);
+        while (r > 1) {
+            r = r >>> 1;
+            square(result, temp);
+            if ((r & n) != 0) {
+                multiply(result, a, temp);
+                result.copy(temp);
+            }
+        }
+        return result;
+    }
+
     private static boolean insert(Matrix a, Matrix b, int i, int j) {
         if (i + b.n > a.n || j + b.m > a.m)
             return false;
@@ -231,6 +252,10 @@ public class Matrix {
      */
     public Matrix clone() {
         return new Matrix(this.matrix);
+    }
+
+    public long get(int i, int j) {
+        return matrix[i][j];
     }
 
     /**

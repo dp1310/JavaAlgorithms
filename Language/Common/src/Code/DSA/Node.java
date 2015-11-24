@@ -23,10 +23,14 @@ class Node<T> implements Iterator {
         return next != null;
     }
 
-    public Node<T> next() {
+    public T next() {
         Node<T> temp = next;
         next = next.next;
-        return temp;
+        return temp.data;
+    }
+
+    public T peep() {
+        return next.data;
     }
 
     /**

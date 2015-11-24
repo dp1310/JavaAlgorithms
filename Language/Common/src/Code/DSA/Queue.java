@@ -1,35 +1,45 @@
 package Code.DSA;
 
-public class Queue {
-    private Node head, tail;
-    private int count = 0;
+import java.util.Iterator;
+
+public class Queue<T> implements Iterable {
+    private Node<T> head, tail;
+    private int size = 0;
 
     public Queue() {
         super();
     }
 
-    private void initiate(int n) {
-        count = 1;
-        head = new Node(n);
+    private void initiate(T n) {
+        size = 1;
+        head = new Node<T>(n);
         tail = head;
     }
 
-    public void add(int n) {
-        if (count == 0) {
+    public void push(T n) {
+        if (size == 0) {
             initiate(n);
             return;
         }
 
-        count++;
-        tail.next = new Node(n);
+        size++;
+        tail.next = new Node<T>(n);
         tail = tail.next;
     }
 
-    public void remove() {
-        if (count > 0) {
-            count--;
-            head = head.next;
-        }
+    public T pop() {
+        T temp = head.data;
+        head = head.next;
+        size--;
+        return temp;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder(size << 1);
+        for (Object obj : this)
+            sb.append(obj).append(' ');
+
+        return sb.toString();
     }
 
     public void print() {
@@ -41,19 +51,43 @@ public class Queue {
         System.out.println();
     }
 
-    public int get() {
+    public T get() {
         return head.data;
     }
 
     public boolean isEmpty() {
-        return count == 0;
+        return size == 0;
     }
 
     public int count() {
-        return count;
+        return size;
     }
 
-    final static class Node {
+    public Iterator iterator() {
+        return new queueIter(this);
+    }
+
+    public int size() {
+        return size;
+    }
+
+    class queueIter<T> implements Iterator {
+        Queue<T> q;
+
+        queueIter(Queue<T> queue) {
+            q = queue;
+        }
+
+        public boolean hasNext() {
+            return q.size != 0;
+        }
+
+        public Object next() {
+            return q.pop();
+        }
+    }
+
+    /* final static class Node {
         int data;
         Node next;
 
@@ -65,5 +99,5 @@ public class Queue {
             this.data = n;
             this.next = next;
         }
-    }
+    } */
 }

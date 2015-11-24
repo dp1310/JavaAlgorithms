@@ -4,11 +4,12 @@ import java.util.Random;
 
 /**
  * This class is to generate random Strings. Random class doesn't have
- * functions for random character, Strings.
+ * functions for random character, Strings, large numbers.
  *
  * @author Ashok Rajpurohit (ashok1113@gmail.com)
  */
 public class RandomStrings extends Random {
+    @SuppressWarnings("compatibility:-3752703102521334407")
     private static final long serialVersionUID = 7817998554436830797L;
 
     public RandomStrings() {
@@ -128,7 +129,7 @@ public class RandomStrings extends Random {
     }
 
     /**
-     * Returns numerical random string of length n.
+     * Returns non-negative number having n digits.
      *
      * @param n
      * @return
