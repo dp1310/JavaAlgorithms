@@ -7,9 +7,9 @@ package Code.DSA;
  * Algorithms" by Cormen.
  *
  * @author Ashok Rajpurohit (ashok1113@gmail.com)
- * @see     Code.DSA.BSTAVL
- * @see     Code.DSA.BSTbyNode
- * @see     Code.DSA.RankTree
+ * @see     BSTAVL
+ * @see     BSTbyNode
+ * @see     RankTree
  */
 public class RedBlackTree {
     private final static Node NIL = new Node(0);

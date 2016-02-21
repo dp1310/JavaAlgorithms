@@ -2,6 +2,8 @@ package Code.Main;
 
 //package Template;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -17,6 +19,14 @@ public class InputReader {
 
     public InputReader() {
         in = System.in;
+    }
+
+    public InputReader(String file) throws FileNotFoundException {
+        in = new FileInputStream(file);
+    }
+
+    public void close() throws IOException {
+        in.close();
     }
 
     public int readInt() throws IOException {
@@ -55,10 +65,26 @@ public class InputReader {
         return ar;
     }
 
+    public int[] readIntArray(int n, int d) throws IOException {
+        int[] ar = new int[n];
+        for (int i = 0; i < n; i++)
+            ar[i] = readInt() + d;
+
+        return ar;
+    }
+
     public int[][] readIntTable(int m, int n) throws IOException {
         int[][] res = new int[m][];
         for (int i = 0; i < m; i++)
             res[i] = readIntArray(n);
+
+        return res;
+    }
+
+    public int[][] readIntTable(int m, int n, int d) throws IOException {
+        int[][] res = new int[m][];
+        for (int i = 0; i < m; i++)
+            res[i] = readIntArray(n, d);
 
         return res;
     }
@@ -96,6 +122,14 @@ public class InputReader {
 
         for (int i = 0; i < n; i++)
             ar[i] = readLong();
+
+        return ar;
+    }
+
+    public long[] readLongArray(int n, long d) throws IOException {
+        long[] ar = new long[n];
+        for (int i = 0; i < n; i++)
+            ar[i] = readLong() + d;
 
         return ar;
     }
@@ -204,5 +238,25 @@ public class InputReader {
             res[i] = read();
 
         return res;
+    }
+
+    public String[] readStringArray(int size, int len) throws IOException {
+        String[] res = new String[size];
+        for (int i = 0; i < size; i++)
+            res[i] = read(len);
+
+        return res;
+    }
+
+    public double readDouble() throws IOException {
+        return Double.parseDouble(read());
+    }
+
+    public double[] readDoubleArray(int n) throws IOException {
+        double[] ar = new double[n];
+        for (int i = 0; i < n; i++)
+            ar[i] = readDouble();
+
+        return ar;
     }
 }

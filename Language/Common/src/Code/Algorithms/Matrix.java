@@ -12,6 +12,7 @@ package Code.Algorithms;
  * This class has one two dimensional array for matix representation.
  * The parameter n and m are the dimensions of matrix of size n x m.
  * n and m are for shorthand purpose only.
+ * 
  * @author Ashok Rajpurohit (ashok1113@gmail.com)
  */
 public class Matrix {
@@ -41,9 +42,9 @@ public class Matrix {
      * @return returns a x b matrix
      * @throws Exception
      */
-    public static Matrix multiply(Matrix a, Matrix b) throws Exception {
+    public static Matrix multiply(Matrix a, Matrix b) {
         if (a.m != b.n)
-            throw new Exception("matrices not multiplicable");
+            throw new RuntimeException("matrices not multiplicable");
 
         Matrix result = new Matrix();
         result.n = a.n;
@@ -67,10 +68,9 @@ public class Matrix {
      * @throws Exception when a and b are not multiplicable or result matrix
      * is not of proper dimension.
      */
-    private static void multiply(Matrix a, Matrix b,
-                                 Matrix result) throws Exception {
+    private static void multiply(Matrix a, Matrix b, Matrix result) {
         if (a.m != b.n || result.n != a.n || result.m != b.m)
-            throw new Exception("matrices not multiplicable");
+            throw new RuntimeException("matrices not multiplicable");
 
         result.reset();
         for (int i = 0; i < a.n; i++) {
@@ -90,9 +90,9 @@ public class Matrix {
      * @return
      * @throws Exception
      */
-    public static Matrix pow(Matrix a, long n, long mod) throws Exception {
+    public static Matrix pow(Matrix a, long n, long mod) {
         if (a.n != a.m)
-            throw new Exception("Matrix should be square matrix only");
+            throw new RuntimeException("Matrix should be square matrix only");
         Matrix result = new Matrix(a.matrix);
         if (n == 1)
             return result;
@@ -113,9 +113,9 @@ public class Matrix {
         return result;
     }
 
-    public static Matrix pow(Matrix a, long n) throws Exception {
+    public static Matrix pow(Matrix a, long n) {
         if (a.n != a.m)
-            throw new Exception("Matrix should be square matrix only");
+            throw new RuntimeException("Matrix should be square matrix only");
         Matrix result = new Matrix(a.matrix);
         if (n == 1)
             return result;
@@ -162,9 +162,9 @@ public class Matrix {
      * @param temp Temporary Matrix.
      * @throws Exception if the matrices are not compatible
      */
-    private void copy(Matrix temp) throws Exception {
+    private void copy(Matrix temp) {
         if (this.n != temp.n || this.m != temp.m)
-            throw new Exception("Matrices not compatible");
+            throw new RuntimeException("Matrices not compatible");
 
         for (int i = 0; i < n; i++)
             for (int j = 0; j < m; j++)
@@ -194,9 +194,9 @@ public class Matrix {
      * Squares the matrix and stores the result in the same matrix.
      * @throws Exception if the Matrix is not square matrix.
      */
-    public void square() throws Exception {
+    public void square() {
         if (this.m != this.n)
-            throw new Exception("Matrix should be square matrix");
+            throw new RuntimeException("Matrix should be square matrix");
         Matrix temp = clone();
         square(this, temp);
     }
@@ -263,6 +263,7 @@ public class Matrix {
      * The format of ar is assumed as
      * ar[0] * F[n-1] + ar[1] * F[n - 2] + ... + ar[end] * F[n - 1 - end]
      * This Matrix can be used for calculating nth term of the series.
+     * 
      * @param ar
      * @return
      */

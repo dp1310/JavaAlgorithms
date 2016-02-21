@@ -1,0 +1,8 @@
+11, 8, 2, 9, 10, 
+10, 3, 11, 5, 
+10: 11: 7: 
+---------------------------------------------------------------------
+
+java.io.IOException: No new bytes
+	at Code.Main.InputReader.readLine(InputReader.java:178)
+	at Code.DSA.Main.main(Main.java:61)

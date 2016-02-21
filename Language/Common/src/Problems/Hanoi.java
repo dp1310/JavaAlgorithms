@@ -45,6 +45,7 @@ import java.io.IOException;
  *
  * 3. Using recurring series we can prove that
  * F(n) = 2^n - 1
+ *
  * Please see Higher Algebra by H. S. Hall & S. R. Knight or
  * Higher Algebra by Bernard and Child.
  *
@@ -64,7 +65,7 @@ public class Hanoi {
         base = new Matrix(matrixArray);
     }
 
-    public static void main(String[] args) throws IOException, Exception {
+    public static void main(String[] args) throws IOException {
         in = new InputReader(System.in);
         out = new Output(System.out);
 
@@ -73,27 +74,54 @@ public class Hanoi {
         out.close();
     }
 
-    private void solve() throws IOException, Exception {
+    private void solve() throws IOException {
         int mod = 1000000007;
         while (true) {
-            int n = in.readInt(), t = in.readInt();
-            Random random = new Random();
-            long time = System.currentTimeMillis();
-
-            for (int i = 0; i < t; i++)
-                matrixMethod(n, mod);
-
-            System.out.println("Matrix:\t" +
-                               (System.currentTimeMillis() - time));
-
-            time = System.currentTimeMillis();
-
-            for (int i = 0; i < t; i++)
-                iterative(n, mod);
-
-            System.out.println("Iterative:\t" +
-                               (System.currentTimeMillis() - time) + "\n");
+            out.println(steps(in.readInt()));
+            out.flush();
         }
+    }
+
+    /**
+     * Moves disks from Pole A to Pole C
+     *
+     * @param size
+     * @return
+     */
+    public static String steps(int size) {
+        if (size <= 0)
+            return "Paagal hai kyha?";
+
+        if (size > 10)
+            return "Bhad mein jaa, this is too big";
+
+        if (size == 1) {
+            return "1: A -> C\n";
+        }
+
+        StringBuilder sb = new StringBuilder();
+        int step = 1;
+
+        step = move(sb, 'A', 'B', 'C', 1, size - 1);
+        sb.append(step + ": ").append("A -> C\n");
+
+        move(sb, 'B', 'C', 'A', step + 1, size - 1);
+
+        return sb.toString();
+    }
+
+    private static int move(StringBuilder sb, char from, char to,
+                            char intermediate, int step, int size) {
+        if (size == 1) {
+            sb.append(step + ": " + from + " -> " + to + "\n");
+            return step + 1;
+        }
+
+        step = move(sb, from, intermediate, to, step, size - 1);
+        sb.append(step + ": " + from + " -> " + to + "\n");
+
+        step = move(sb, intermediate, to, from, step + 1, size - 1);
+        return step;
     }
 
     public static long Moves(long n, long mod) {
@@ -130,7 +158,7 @@ public class Hanoi {
         return res;
     }
 
-    private static long matrixMethod(long n, long mod) throws Exception {
+    private static long matrixMethod(long n, long mod) {
         if (n == 0)
             return 0;
 
@@ -144,7 +172,7 @@ public class Hanoi {
         return (res.get(0, 0) + res.get(1, 0)) % mod;
     }
 
-    private static long matrixMethod(long n) throws Exception {
+    private static long matrixMethod(long n) {
         if (n == 1)
             return 1;
 
@@ -156,16 +184,14 @@ public class Hanoi {
     }
 
     private static long recurringSeries(long n, long mod) {
-        if (n == 0)
-            return 0;
+        if (n < 63)
+            return ((1L << n) - 1) % mod;
+
 
         return (mod + Power.pow(2, n, mod) - 1) % mod;
     }
 
     private static long recurringSeries(long n) {
-        if (n == 0)
-            return 0;
-
-        return Power.pow(2, n) - 1;
+        return (1L << n) - 1;
     }
 }

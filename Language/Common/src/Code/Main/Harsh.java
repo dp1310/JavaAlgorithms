@@ -24,11 +24,48 @@ public class Harsh {
     }
 
     private void solve() throws IOException {
-        while (true) {
-            int n = in.readInt();
-            functionOne(n);
-            functionTwo(n);
+        String s = in.read();
+        int q = in.readInt();
+        int mid = ('a' + 'z') >>> 1;
+        long[] hash = new long[256];
+        for (int i = 0; i < s.length(); ) {
+            char ch = s.charAt(i);
+            long count = 0;
+            i++;
+            while (i < s.length() && s.charAt(i) >= '0' &&
+                   s.charAt(i) <= '9') {
+                count = (count << 3) + (count << 1) + s.charAt(i) - '0';
+                i++;
+            }
+            hash[ch] += count;
         }
+
+        for (int i = 'b'; i <= 'z'; i++)
+            hash[i] += hash[i - 1];
+
+        StringBuilder sb = new StringBuilder(q << 1);
+        for (int i = 0; i < q; i++) {
+            long k = in.readLong();
+            char ch = 'a';
+
+            if (k <= hash[mid]) {
+                int j = 'a';
+                while (hash[j] < k)
+                    j++;
+
+                sb.append((char)j).append('\n');
+            } else if (k > hash['z'])
+                sb.append("-1\n");
+            else {
+                int j = mid;
+                while (hash[j] < k)
+                    j++;
+
+                sb.append((char)j).append('\n');
+            }
+        }
+
+        out.print(sb);
     }
 
     private static void functionOne(int n) {
@@ -43,5 +80,58 @@ public class Harsh {
             System.out.print((n - (int)Math.sqrt((n - i) * (n - i))) + " ");
 
         System.out.println();
+    }
+
+    final static class solveHarsh {
+        int maxValue = 0, maxLength = 0;
+        int[] ar;
+
+        public solveHarsh(int[] ar) {
+            this.ar = ar;
+        }
+
+        public void calculate() {
+            maxLength = 1;
+            for (int i = 0; i < ar.length; i++) {
+                maxValue = Math.max(maxValue, ar[i]);
+                xorWay(ar[i], i + 1, 1);
+                andWay(ar[i], i + 1, 1);
+            }
+        }
+
+        private void xorWay(int valueSoFar, int index, int count) {
+            if (index == ar.length)
+                return;
+
+            int temp = valueSoFar;
+
+            for (int i = index; i < ar.length; i++) {
+                temp = valueSoFar ^ ar[i];
+                if (temp > maxValue) {
+                    maxValue = temp;
+                    maxLength = count + 1;
+                }
+
+                xorWay(temp, i + 1, count + 1);
+            }
+        }
+
+        private void andWay(int valueSoFar, int index, int count) {
+            if (index == ar.length)
+                return;
+
+            int temp = valueSoFar;
+
+            for (int i = index; i < ar.length; i++) {
+                temp = valueSoFar & ar[i];
+
+                if (temp > maxValue) {
+                    maxValue = temp;
+                    maxLength = count + 1;
+                }
+
+                andWay(temp, i + 1, count + 1);
+            }
+        }
     }
 }

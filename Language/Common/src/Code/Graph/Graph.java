@@ -2,8 +2,10 @@ package Code.Graph;
 
 import java.lang.reflect.Array;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.util.Set;
 
 /**
  * This class uses Java Library functions unlike {@link GraphList} that makes
@@ -16,8 +18,10 @@ import java.util.LinkedList;
  */
 
 public class Graph {
+    private final static LinkedList<Integer> listType =
+        new LinkedList<Integer>();
     private int nodes, edges;
-    private LinkedList[] list;
+    private LinkedList<Integer>[] list;
     private boolean directed = false;
 
     private Graph() {
@@ -27,7 +31,8 @@ public class Graph {
     public Graph(int nodes) {
         this.nodes = nodes;
         edges = 0;
-        list = new LinkedList[nodes];
+        list =
+(LinkedList<Integer>[])Array.newInstance(listType.getClass(), nodes);
     }
 
     public Graph(int nodes, boolean directed) {
@@ -83,7 +88,7 @@ public class Graph {
         if (list[from] == null)
             return false;
 
-        if (list[from].remove((Integer)to)) {
+        if (list[from].remove(new Integer(to))) {
             edges--;
             return true;
         }
@@ -148,7 +153,7 @@ public class Graph {
 
         int distance = 0;
         boolean[] check = new boolean[nodes];
-        LinkedList queue = new LinkedList();
+        LinkedList queue = new LinkedList<Integer>();
         queue.add(u);
         queue.add(-1);
         check[u] = true;
@@ -227,7 +232,9 @@ public class Graph {
         Graph merge = new Graph();
         merge.nodes = this.nodes + graph.nodes;
         merge.edges = this.edges + graph.edges;
-        merge.list = new LinkedList[merge.nodes];
+        merge.list =
+                (LinkedList<Integer>[])Array.newInstance(listType.getClass(),
+                                                         merge.nodes);
 
         for (int i = 0; i < nodes; i++)
             merge.list[i] = copy(list[i]);
@@ -263,9 +270,11 @@ public class Graph {
         graph.nodes = this.nodes;
         graph.edges = this.edges;
         graph.directed = this.directed;
-        graph.list = new LinkedList[nodes];
+        graph.list =
+                (LinkedList<Integer>[])Array.newInstance(listType.getClass(),
+                                                         nodes);
         for (int i = 0; i < nodes; i++)
-            graph.list[i] = (LinkedList)list[i].clone();
+            graph.list[i] = (LinkedList<Integer>)list[i].clone();
 
         return graph;
     }
@@ -285,7 +294,9 @@ public class Graph {
         Graph graph = new Graph();
         graph.nodes = this.nodes;
         graph.edges = this.edges;
-        graph.list = new LinkedList[nodes];
+        graph.list =
+                (LinkedList<Integer>[])Array.newInstance(listType.getClass(),
+                                                         nodes);
         graph.directed = true;
 
         for (int i = 0; i < nodes; i++)
@@ -306,12 +317,12 @@ public class Graph {
      * @param list
      * @return
      */
-    private static LinkedList copy(LinkedList list) {
+    private static LinkedList<Integer> copy(LinkedList<Integer> list) {
         if (list == null)
             return list;
 
-        LinkedList copy = new LinkedList();
-        for (Object obj : list)
+        LinkedList<Integer> copy = new LinkedList<Integer>();
+        for (Integer obj : list)
             copy.add(obj);
 
         return copy;
@@ -384,6 +395,27 @@ public class Graph {
             return 0;
 
         return list[from].size();
+    }
+
+    /**
+     * This function returns the number of edges coming to the node.
+     *
+     * @param to node index/value
+     * @return number of edges coming to this node.
+     */
+
+    public int degreeIn(int to) {
+        int degree = 0;
+        for (int i = 0; i < nodes; i++) {
+            if (list[i] != null) {
+                for (Object o : list[i]) {
+                    if (to == (Integer)o)
+                        degree++;
+                }
+            }
+        }
+
+        return degree;
     }
 
     public boolean isCyclic() {
@@ -475,7 +507,6 @@ public class Graph {
                 for (Object o : list[temp]) {
                     queue.add((Integer)o);
                 }
-
             }
         }
 
@@ -643,5 +674,146 @@ public class Graph {
     private void valid(int v) {
         if (v < 0 || v >= nodes)
             throw new RuntimeException("Invalid node value: " + v);
+    }
+
+    /**
+     * Checks whether Euler Tour exists or not in the graph. Euler Tour is the
+     * path where each edge is visited only once
+     *
+     * @return existense of Euler Tour.
+     */
+    private boolean eulerTourExists() {
+        LinkedList<Integer> connected = connectedComponents(0);
+        if (connected.size() < nodes)
+            return false;
+
+        int[] indegree = new int[nodes];
+        for (int i = 0; i < nodes; i++) {
+            if (list[i] != null) {
+                for (Object e : list[i])
+                    indegree[(Integer)e]++;
+            }
+        }
+
+        for (int i = 0; i < nodes; i++) {
+            if (indegree[i] != degreeOut(i))
+                return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Returns true if the arborescence for the graph exists.
+     * Arborescence is the rooted tree such that there is a directed path from
+     * the root to every other vertex in the graph.
+     *
+     * @return Existense of arborescence in the graph.
+     */
+    public boolean arborescence() {
+        if (!directed || isCyclic())
+            return false;
+
+        boolean[] check = new boolean[nodes];
+
+        for (int i = 0; i < nodes; i++) {
+            if (list[i] != null && !check[i]) {
+                LinkedList<Integer> vis = connectedComponents(i);
+                if (vis.size() == nodes - 1)
+                    return true;
+
+                for (Integer e : vis) {
+                    check[e] = true;
+                }
+                check[i] = true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Returns the root node of the arborescence tree.
+     * If the arborescence does not exists it returns -1.
+     *
+     * @return root node of arborescence.
+     */
+    public int rootArborescence() {
+        if (!directed || isCyclic())
+            return -1;
+
+        boolean[] check = new boolean[nodes];
+
+        for (int i = 0; i < nodes; i++) {
+            if (list[i] != null && !check[i]) {
+                LinkedList<Integer> vis = connectedComponents(i);
+                if (vis.size() == nodes - 1)
+                    return i;
+
+                for (Integer e : vis) {
+                    check[e] = true;
+                }
+                check[i] = true;
+            }
+        }
+
+        return -1;
+    }
+
+    public Graph MinSpanningTree() {
+        return Prim();
+    }
+
+    private Graph Kruskal() {
+        throw new RuntimeException("Method incomplete");
+    }
+
+    private Graph Prim() {
+        boolean[] nodeAdded = new boolean[nodes];
+        Graph msp = new Graph(nodes);
+        LinkedList<Integer> sl = new LinkedList<Integer>(), dl =
+            new LinkedList<Integer>();
+
+        for (int i = 0; i < nodes; i++)
+            if (list[i] != null) {
+                for (Integer e : list[i]) {
+                    sl.add(i);
+                    dl.add(e);
+                }
+            }
+
+        msp.add(sl.getFirst(), dl.getFirst());
+        nodeAdded[sl.getFirst()] = true;
+        nodeAdded[dl.getFirst()] = true;
+
+        boolean cont = true;
+        while (cont) {
+            cont = false;
+            Iterator<Integer> slIter = sl.iterator();
+            Iterator<Integer> dlIter = dl.iterator();
+
+            while (slIter.hasNext()) {
+                int s = slIter.next(), d = dlIter.next();
+                if (nodeAdded[s] ^ nodeAdded[d]) {
+                    msp.add(s, d);
+                    nodeAdded[s] = true;
+                    nodeAdded[d] = true;
+                    cont = true;
+                }
+            }
+        }
+        return msp;
+    }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < nodes; i++) {
+            if (list[i] != null) {
+                for (Integer e : list[i]) {
+                    sb.append(i + "->" + e + "\n");
+                }
+            }
+        }
+        return sb.toString();
     }
 }

@@ -1,0 +1,14 @@
+java.io.FileOutputStream@2a139a55
+11, 8, 2, 9, 10, 
+le kanjar
+10, 3, 11, 5, 
+le kanjar
+10: 11: 7: 
+le kanjar
+---------------------------------------------------------------------
+le kanjar
+
+le kanjar
+java.io.IOException: No new bytes
+	at Code.Main.InputReader.readLine(InputReader.java:182)
+	at Code.DSA.Main.main(Main.java:72)

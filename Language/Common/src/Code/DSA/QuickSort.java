@@ -524,15 +524,6 @@ public class QuickSort {
             return;
         }
 
-        //        if (ar[start] > ar[end])
-        //            swap(ar, start, end);
-        //
-        //        if (end == start + 1)
-        //            return;
-
-        //                if (isSorted(ar, start, end))
-        //                    return;
-
         int lt = start + 1, i = start + 1, gt = end - 1;
         while (i <= gt) {
             if (ar[i] < ar[start]) {
