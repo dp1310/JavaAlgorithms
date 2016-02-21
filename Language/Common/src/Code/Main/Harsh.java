@@ -112,6 +112,8 @@ public class Harsh {
                 if (temp > maxValue) {
                     maxValue = temp;
                     maxLength = count + 1;
+                } else if (temp == maxValue && count >= maxLength) {
+                    maxLength = count + 1;
                 }
 
                 solve(txor, tand, i + 1, count + 1);
