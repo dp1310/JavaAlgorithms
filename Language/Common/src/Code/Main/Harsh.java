@@ -94,43 +94,27 @@ public class Harsh {
             maxLength = 1;
             for (int i = 0; i < ar.length; i++) {
                 maxValue = Math.max(maxValue, ar[i]);
-                xorWay(ar[i], i + 1, 1);
-                andWay(ar[i], i + 1, 1);
+                solve(ar[i], ar[i], i + 1, 1);
             }
         }
 
-        private void xorWay(int valueSoFar, int index, int count) {
+        private void solve(int xorSoFar, int andSoFar, int index, int count) {
             if (index == ar.length)
                 return;
 
-            int temp = valueSoFar;
+            int tand = andSoFar, txor = xorSoFar;
 
             for (int i = index; i < ar.length; i++) {
-                temp = valueSoFar ^ ar[i];
+                tand = andSoFar & ar[i];
+                txor = xorSoFar ^ ar[i];
+
+                int temp = tand | txor;
                 if (temp > maxValue) {
                     maxValue = temp;
                     maxLength = count + 1;
                 }
 
-                xorWay(temp, i + 1, count + 1);
-            }
-        }
-
-        private void andWay(int valueSoFar, int index, int count) {
-            if (index == ar.length)
-                return;
-
-            int temp = valueSoFar;
-
-            for (int i = index; i < ar.length; i++) {
-                temp = valueSoFar & ar[i];
-
-                if (temp > maxValue) {
-                    maxValue = temp;
-                    maxLength = count + 1;
-                }
-
-                andWay(temp, i + 1, count + 1);
+                solve(txor, tand, i + 1, count + 1);
             }
         }
     }
