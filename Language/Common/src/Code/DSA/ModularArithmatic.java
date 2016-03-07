@@ -1,5 +1,7 @@
 package Code.DSA;
 
+import java.util.LinkedList;
+
 /**
  * This class is created to implement Modular Arithmatic functions.
  * Although some functions are already implemented in {@link BinaryGCD}
@@ -163,5 +165,24 @@ public class ModularArithmatic {
         if (a == 0)
             return b;
         return euclid(b % a, a);
+    }
+
+    /**
+     * This method calculates count of coprime numbers smaller than a.
+     * For more info please visit wikipedia article or refer
+     * A Comprehensive Course in Number Theory by Alan Baker.
+     *
+     * @param a
+     * @return
+     */
+    public static int totient(int a) {
+        LinkedList<Integer> factors = Prime.primeFactors(a);
+        int res = a;
+
+        for (Integer e : factors) {
+            res = (res / e) * (e - 1);
+        }
+
+        return res;
     }
 }

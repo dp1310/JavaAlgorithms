@@ -5,6 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
+
 /**
  * This class is to solve Harshvardhan's problems (programming only ;) )
  *

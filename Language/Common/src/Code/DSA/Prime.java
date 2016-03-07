@@ -1,5 +1,7 @@
 package Code.DSA;
 
+import java.util.LinkedList;
+
 /**
  * This class implements functions related to prime numbers.
  * Work in progress.
@@ -136,35 +138,59 @@ public class Prime {
      */
 
     public static boolean primality(int n) {
-        if (n == 1)
+        if (n <= 1)
             return false;
         if (n <= 3)
             return true;
 
-        int p = (int)Math.sqrt(n);
+        if (n % 2 == 0 || n % 3 == 0)
+            return false;
 
-        int[] ar = gen_prime(p);
-        for (int i = 0; i < ar.length; i++) {
-            if (n % ar[i] == 0)
+        int p = (int)Math.sqrt(n);
+        boolean[] primes = new boolean[p + 1];
+        primes[2] = true;
+
+        for (int i = 3; i <= p; i++)
+            primes[i] = true;
+
+        for (int i = 2; i <= p; i++) {
+            if (!primes[i])
+                continue;
+
+            if (n % i == 0)
                 return false;
+
+            for (int j = i << 1; j <= p; j += i)
+                primes[j] = false;
         }
         return true;
-        /*
-        if (n <= 3)
-            return true;
+    }
 
-        int i = 20;
-        while (factorial[i] > n)
-            i--;
+    /**
+     * Returns list of prime factors for integer n.
+     *
+     * @param n
+     * @return
+     */
+    public static LinkedList<Integer> primeFactors(int n) {
+        LinkedList<Integer> list = new LinkedList<Integer>();
 
-        n = n % factorial[i];
-        if (n == 1)
-            return true;
+        if (n < 2)
+            return list;
 
-        if (n > i)
-            return primality(n);
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if (n % i != 0)
+                continue;
 
-        return false;
-         */
+            list.add(i);
+
+            while (n % i == 0)
+                n /= i;
+        }
+
+        if (n > 1)
+            list.add(n);
+
+        return list;
     }
 }

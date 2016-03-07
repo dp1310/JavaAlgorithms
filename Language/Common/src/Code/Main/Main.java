@@ -1,6 +1,11 @@
 package Code.Main;
 
+import Code.DSA.ModularArithmatic;
 import Code.DSA.Power;
+
+import Code.DSA.Prime;
+
+import Problems.Fibonacci;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -11,7 +16,10 @@ import java.io.PrintWriter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 /**
@@ -42,10 +50,10 @@ public class Main {
 
     public void solve() throws IOException, Exception {
         InputReader in = new InputReader();
-
         while (true) {
-            out.println(DevKashyap.solution(in.read()));
-            out.println(line);
+            int n = in.readInt();
+            out.println(Prime.primeFactors(n));
+            out.println(ModularArithmatic.totient(n));
             out.flush();
         }
     }
