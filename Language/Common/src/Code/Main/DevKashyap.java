@@ -55,8 +55,6 @@ public class DevKashyap {
 
             a = b;
             b = c % mod;
-
-            System.out.println(a + ", " + b);
         }
 
         return b;
