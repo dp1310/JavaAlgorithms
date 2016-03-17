@@ -40,6 +40,32 @@ public class DevKashyap {
         return res;
     }
 
+    public static long combinationString(String s, int patternSize) {
+        if (s.length() == 1)
+            return 1;
+
+        int mod = 1000000007;
+
+        long a = 1, b = 1;
+        for (int i = 1; i < s.length(); i++) {
+            long c = b;
+            int num = charsToNumber(s.charAt(i - 1), s.charAt(i));
+            if (num < patternSize)
+                c += a;
+
+            a = b;
+            b = c % mod;
+
+            System.out.println(a + ", " + b);
+        }
+
+        return b;
+    }
+
+    private static int charsToNumber(char a, char b) {
+        return a * 10 - 11 * '0' + b;
+    }
+
     public static int left1right0(int[] ar) {
         int total = 0;
         for (int i = 0; i < ar.length; i++)

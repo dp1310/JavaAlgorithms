@@ -5,7 +5,11 @@ import Code.DSA.Power;
 
 import Code.DSA.Prime;
 
+import Code.DSA.RandomStrings;
+
 import Problems.Fibonacci;
+
+import Problems.MagicSquare;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -14,13 +18,18 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 
+import java.math.BigInteger;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 
 /**
  * @author: Ashok Rajpurohit (ashok1113@gmail.com)
@@ -50,37 +59,30 @@ public class Main {
 
     public void solve() throws IOException, Exception {
         InputReader in = new InputReader();
+        RandomStrings random = new RandomStrings();
         while (true) {
-            int n = in.readInt();
-            out.println(Prime.primeFactors(n));
-            out.println(ModularArithmatic.totient(n));
+            int n = in.readInt(), size = in.readInt();
+            String s = random.nextString123(n);
+            out.println(s);
+            out.println(DevKashyap.combinationString(s, size));
+            out.println(line);
             out.flush();
         }
     }
 
+    private static List toList(Set set) {
+        List list = new LinkedList();
+        for (Object o : set)
+            list.add(o);
+
+        return list;
+    }
+
     private static int[] gen_test(int n) {
-        Random random = new Random();
-        int mod = 1000000007;
         int[] res = new int[n];
-        int mostFrequent = random.nextInt(mod) + 1;
 
-        int frequency = (n >>> 1) + 1 + random.nextInt(n - 1 - (n >>> 1));
-        boolean[] check = new boolean[n];
-        int count = 0;
-        while (count < frequency) {
-            int i = random.nextInt(n);
-            while (check[i])
-                i = random.nextInt(n);
-
-            count++;
-            check[i] = true;
-            res[i] = mostFrequent;
-        }
-
-        for (int i = 0; i < n; i++)
-            if (!check[i]) {
-                res[i] = random.nextInt(mod);
-            }
+        for (int i = 0, j = 1; i < n; i++, j++)
+            res[i] = j;
 
         return res;
     }
@@ -92,6 +94,16 @@ public class Main {
             ar[i] = random.nextInt(mod);
 
         return ar;
+    }
+
+    public static int[] gen_rand(int size, int start, int end) {
+        int mod = end + 1 - start;
+        int[] res = gen_rand(size, mod);
+
+        for (int i = 0; i < size; i++)
+            res[i] += start;
+
+        return res;
     }
 
     private static boolean inTask = false;
