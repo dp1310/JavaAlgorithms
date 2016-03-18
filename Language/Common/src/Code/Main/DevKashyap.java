@@ -133,20 +133,12 @@ public class DevKashyap {
             } else {
                 count--;
             }
-            //            System.out.println("i ==" + i + " count=" + count +
-            //                               "majority index " + majorityIndex +
-            //                               "arr[majorotyindex]" + arr[majorityIndex]);
         }
         if (count > (arr.length / 2)) {
-            //            System.out.println("majority index = " + majorityIndex +
-            //                               "majority element ::" + arr[majorityIndex]);
             return majorityIndex;
         } else {
-            //            System.out.println("not found");
             return -1;
         }
-
-        //        return arr[majorityIndex];
     }
 
     /**
