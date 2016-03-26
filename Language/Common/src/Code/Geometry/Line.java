@@ -6,7 +6,7 @@ package Code.Geometry;
  * This is from basic straight line equation y = mx + c
  * where m is slope, c is constant.
  * for vertical lines the equation is x = c and slope is positive infinite.
- * 
+ *
  * @author Ashok Rajpurohit
  */
 
@@ -18,7 +18,7 @@ public class Line {
      * creates a line connecting two points a and b.
      * if both the points are same, it will instantiate a new horizontal line
      * passing through these points.
-     * 
+     *
      * @param a
      * @param b
      */
@@ -112,8 +112,12 @@ public class Line {
      * @return
      */
     public final static double getSlope(Point a, Point b) {
-        if (a.x == b.x)
-            return Double.POSITIVE_INFINITY;
+        if (a.x == b.x) {
+            if (b.y > a.y)
+                return Double.POSITIVE_INFINITY;
+            
+            return Double.NEGATIVE_INFINITY;
+        }
         return (b.y - a.y) / (b.x - a.x);
     }
 }
